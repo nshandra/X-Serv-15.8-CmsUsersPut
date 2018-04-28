@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.http import HttpResponse, HttpResponseNotFound
+from django.http import HttpResponse, HttpResponseNotFound, HttpResponseNotAllowed
 from django.views.decorators.csrf import csrf_exempt
 from cms.models import Pages
 # Create your views here.
@@ -35,6 +35,7 @@ def get_page(request, req_name):
             if request.method == "GET":
                 return HttpResponse(req_page)
             else:
-                return HttpResponseNotFound("<h1>Page already exist.</h1>")
+                return HttpResponseNotAllowed("['GET', 'PUT']",
+                                              "<h1>405 Not Allowed</h1>")
         except Pages.DoesNotExist:
                 return HttpResponseNotFound("<h1>Page does not exist.</h1>")
